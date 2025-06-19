@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
 
- 
     private var cellSelectedX = 0
     private var cellSelectedY = 0
 
