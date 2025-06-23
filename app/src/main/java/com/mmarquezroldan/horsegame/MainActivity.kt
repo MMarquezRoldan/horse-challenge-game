@@ -1,6 +1,7 @@
 package com.mmarquezroldan.horsegame
 
 import android.Manifest
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Point
 import android.os.Bundle
@@ -15,6 +16,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.stripe.android.PaymentConfiguration
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
@@ -47,8 +52,35 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val lyAdsBanner = findViewById<LinearLayout>(R.id.lyAdsBanner)
+
+        val adView = AdView(this)
+        adView.adUnitId = "ca-app-pub-3940256099942544/6300978111"
+        adView.setAdSize(AdSize.BANNER)
+
+        lyAdsBanner.addView(adView)
+
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
+
         initScreenGame()
         startGame()
+    }
+
+    fun launchPaymentCard(view: View) {
+        callPayment()
+    }
+
+    private fun callPayment() {
+        var keyStringPayment = "pk_test_Dt4ZBItXSZT1EzmOd8yCxonL"
+
+        PaymentConfiguration.init(
+            applicationContext,
+            keyStringPayment
+        )
+
+        val intent = Intent(this, CheckoutActivity::class.java)
+        startActivity(intent)
     }
 
     fun checkCellClicked(view: View) {
